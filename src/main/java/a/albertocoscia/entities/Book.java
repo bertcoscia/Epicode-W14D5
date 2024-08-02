@@ -1,7 +1,5 @@
 package a.albertocoscia.entities;
 
-import java.util.List;
-
 public class Book extends WrittenMedia {
     protected String author;
     protected String genre;
@@ -10,10 +8,6 @@ public class Book extends WrittenMedia {
         super(title);
         this.author = author;
         this.genre = genre;
-    }
-
-    public void addToList(List<Book> booksList) {
-        booksList.add(this);
     }
 
     public String getAuthor() {

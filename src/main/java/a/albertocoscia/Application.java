@@ -4,10 +4,7 @@ import a.albertocoscia.entities.Book;
 import a.albertocoscia.entities.Magazine;
 import com.github.javafaker.Faker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Application {
@@ -23,12 +20,11 @@ public class Application {
             /* cerco tra i libri gia presenti in booksList se ne esiste gia uno con lo stesso isbn del nuovo libro
             se l'isbn non esiste, aggiungo il libro a books list, altrimenti decremento i per non perdere un'iterazione
             e generare un nuovo libro */
-            List<String> isbnAlreadySaved = booksList.stream()
-                    .map(Book::getIsbn)
-                    .filter(s -> s.equals(newBook.getIsbn()))
-                    .toList();
+            Optional<Book> isbnAlreadySaved = booksList.stream()
+                    .filter(book -> book.getIsbn().equals(newBook.getIsbn()))
+                    .findFirst();
             if (isbnAlreadySaved.isEmpty()) {
-                newBook.addToList(booksList);
+                booksList.add(newBook);
             } else {
                 i--;
             }
@@ -38,6 +34,39 @@ public class Application {
         }*/
 
         List<Magazine> magazinesList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            Magazine newMagazine = new Magazine(faker.medical().diseaseName(), Periodicity.WEEKLY);
+            Optional<Magazine> isbnAlreadySaved = magazinesList.stream()
+                    .filter(magazine -> magazine.getIsbn().equals(newMagazine.getIsbn()))
+                    .findFirst();
+            if (isbnAlreadySaved.isEmpty()) {
+                magazinesList.add(newMagazine);
+            } else {
+                i--;
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            Magazine newMagazine = new Magazine(faker.app().name(), Periodicity.MONTHLY);
+            Optional<Magazine> isbnAlreadySaved = magazinesList.stream()
+                    .filter(magazine -> magazine.getIsbn().equals(newMagazine.getIsbn()))
+                    .findFirst();
+            if (isbnAlreadySaved.isEmpty()) {
+                magazinesList.add(newMagazine);
+            } else {
+                i--;
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            Magazine newMagazine = new Magazine(faker.university().name(), Periodicity.SEMIANNUAL);
+            Optional<Magazine> isbnAlreadySaved = magazinesList.stream()
+                    .filter(magazine -> magazine.getIsbn().equals(newMagazine.getIsbn()))
+                    .findFirst();
+            if (isbnAlreadySaved.isEmpty()) {
+                magazinesList.add(newMagazine);
+            } else {
+                i--;
+            }
+        }
 
         Scanner scanner = new Scanner(System.in);
 
@@ -102,22 +131,47 @@ public class Application {
                             System.err.println("Choose one between Weekly, Monthly, Semiannual");
                     }
                     break;
+                case "3":
+                    System.out.println("Do you want to delete a book or a magazine?");
+                    String typeToDelete = scanner.nextLine().toLowerCase();
+                    switch (typeToDelete) {
+                        case "book":
+                            System.out.println("Insert ISBN of the book to delete");
+                            String isbnBookToDelete = scanner.nextLine();
+                            Optional<Book> bookToDelete = booksList.stream().filter(book -> book.getIsbn().equals(isbnBookToDelete)).findFirst();
+                            if (bookToDelete.isPresent()) {
+                                booksList.remove(bookToDelete);
+                                System.out.println("Book " + isbnBookToDelete + " successfully deleted");
+                                for (Book book : booksList) {
+                                    System.out.println(book);
+                                }
+                            } else {
+                                System.err.println("Could not find ISBN: " + isbnBookToDelete);
+                            }
+                            break;
+                        case "magazine":
+                            System.out.println("Insert ISBN of the magazine to delete");
+                            String isbnMagazineToDelete = scanner.nextLine();
+                            Optional<Magazine> magazineToDelete = magazinesList.stream().filter(magazine -> magazine.getIsbn().equals(isbnMagazineToDelete)).findFirst();
+                            if (magazineToDelete.isPresent()) {
+                                magazinesList.remove(magazineToDelete);
+                                System.out.println("Magazine " + isbnMagazineToDelete + " successfully deleted");
+                                for (Magazine magazine : magazinesList) {
+                                    System.out.println(magazine);
+                                }
+                            } else {
+                                System.err.println("Could not find ISBN: " + isbnMagazineToDelete);
+                            }
+                            break;
+                        default:
+                            System.err.println("Choose one between book and magazine");
+                    }
+                    break;
+                case "4":
+
             }
 
         } while (!action.equals("0"));
-
-        /*System.out.println("Insert ISBN of the book you want to delete");
-        String isbnToDelete = scanner.nextLine();
-        List<Book> bookToRemove = booksList.stream().filter(book -> book.getIsbn().equals(isbnToDelete)).toList();
-        if (!bookToRemove.isEmpty()) {
-            booksList.remove(bookToRemove.getFirst());
-            System.out.println("Book " + isbnToDelete + " successfully deleted");
-            for (Book book : booksList) {
-                System.out.println(book);
-            }
-        } else {
-            System.err.println("Could not find ISBN: " + isbnToDelete);
-        }*/
 
         /*System.out.println("Insert ISBN of the book you are searching for");
         String isbnToSearch = scanner.nextLine();
