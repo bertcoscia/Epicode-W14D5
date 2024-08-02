@@ -5,7 +5,9 @@ import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Application {
 
@@ -16,7 +18,7 @@ public class Application {
 
         Scanner scanner = new Scanner(System.in);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 50; i++) {
             // creo un nuovo libro
             Book newBook = new Book(faker.book().title(), faker.book().author(), faker.book().genre());
 
@@ -51,27 +53,41 @@ public class Application {
         }*/
 
         /*System.out.println("Insert ISBN of the book you are searching for");
-        String isbnToFind = scanner.nextLine();
+        String isbnToSearch = scanner.nextLine();
         Optional<Book> searchedBook = booksList.stream()
-                .filter(book -> book.getIsbn().equals(isbnToFind))
+                .filter(book -> book.getIsbn().equals(isbnToSearch))
                 .findFirst();
         if (searchedBook.isEmpty()) {
-            System.err.println("Could not find ISBN: " + isbnToFind);
+            System.err.println("Could not find ISBN: " + isbnToSearch);
         } else {
             System.out.println(searchedBook);
         }*/
 
         /*System.out.println("Type the year you want to search for");
         int yearToSearch = Integer.parseInt(scanner.nextLine());
-        Map<Integer, List<Book>> booksByYear = booksList.stream()
+        Map<Integer, List<Book>> booksBySearchedYear = booksList.stream()
                 .filter(book -> book.getPublicationDate().getYear() == yearToSearch)
                 .collect(Collectors.groupingBy(
                         book -> book.getPublicationDate().getYear()
                 ));
-        if (!booksByYear.isEmpty()) {
-            booksByYear.forEach((year, book) -> System.out.println(year + ": " + book));
+        if (!booksBySearchedYear.isEmpty()) {
+            booksBySearchedYear.forEach((year, books) -> System.out.println(year + ": " + books));
         } else {
-            System.out.println("There are no books published in the year " + yearToSearch);
+            System.err.println("There are no books published in the year " + yearToSearch);
         }*/
+
+        System.out.println("Type the author you want to search for");
+        String authorToSearch = scanner.nextLine();
+
+        Map<String, List<Book>> booksBySearchedAuthor = booksList.stream()
+                .filter(book -> book.getAuthor().equals(authorToSearch))
+                .collect(Collectors.groupingBy(
+                        Book::getAuthor
+                ));
+        if (!booksBySearchedAuthor.isEmpty()) {
+            booksBySearchedAuthor.forEach((author, books) -> System.out.println(author + ": " + books));
+        } else {
+            System.err.println("There are no books by the author " + authorToSearch);
+        }
     }
 }
