@@ -1,6 +1,6 @@
 package a.albertocoscia.entities;
 
-public class Book extends WrittenMedia {
+public class Book extends WrittenMedium {
     protected String author;
     protected String genre;
 

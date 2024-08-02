@@ -2,7 +2,7 @@ package a.albertocoscia.entities;
 
 import a.albertocoscia.Periodicity;
 
-public class Magazine extends WrittenMedia {
+public class Magazine extends WrittenMedium {
     protected Periodicity periodicity;
 
     public Magazine(String title, Periodicity periodicity) {

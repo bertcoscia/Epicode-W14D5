@@ -8,7 +8,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.function.Supplier;
 
-public abstract class WrittenMedia {
+public abstract class WrittenMedium {
     protected String isbn;
     protected String title;
     protected LocalDate publicationDate;
@@ -31,7 +31,7 @@ public abstract class WrittenMedia {
         return faker.number().numberBetween(30, 100);
     };
 
-    public WrittenMedia(String title) {
+    public WrittenMedium(String title) {
         this.isbn = isbnSupplier.get();
         this.title = title;
         this.publicationDate = pubDateSupplier.get();
