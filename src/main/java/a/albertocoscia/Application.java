@@ -23,7 +23,7 @@ public class Application {
             Book newBook = new Book(faker.book().title(), faker.book().author(), faker.book().genre());
 
             /* cerco tra i libri gia presenti in booksList se ne esiste gia uno con lo stesso isbn del nuovo libro
-            se l'isbn non esiste, aggiungo il libro a books list, altrimenti decremento i per non perdere un'iterazione
+            se isbn non esiste, aggiungo il libro a books list, altrimenti decremento i per non perdere un'iterazione
             e generare un nuovo libro */
             Optional<Book> isbnAlreadySaved = booksList.stream()
                     .filter(book -> book.getIsbn().equals(newBook.getIsbn()))
@@ -34,9 +34,6 @@ public class Application {
                 i--;
             }
         }
-        /*for (Book book : booksList) {
-            System.out.println(book);
-        }*/
 
         List<Magazine> magazinesList = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
