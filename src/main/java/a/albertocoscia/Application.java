@@ -94,9 +94,17 @@ public class Application {
                     System.out.println("Type the genre of the book");
                     String newBookGenre = scanner.nextLine();
                     try {
-                        booksList.add(new Book(newBookTitle, newBookAuthor, newBookGenre));
-                        for (Book book : booksList) {
-                            System.out.println(book);
+                        Book newBook = new Book(newBookTitle, newBookAuthor, newBookGenre);
+                        Optional<Book> isbnAlreadySaved = booksList.stream()
+                                .filter(book -> book.getIsbn().equals(newBook.getIsbn()))
+                                .findFirst();
+                        if (isbnAlreadySaved.isEmpty()) {
+                            booksList.add(newBook);
+                            for (Book book : booksList) {
+                                System.out.println(book);
+                            }
+                        } else {
+                            System.err.println("ISBN already existing");
                         }
                     } catch (IllegalArgumentException e) {
                         System.err.println(e.getMessage());
@@ -118,7 +126,15 @@ public class Application {
                     switch (newMagazinePeriodicity) {
                         case "weekly":
                             try {
-                                magazinesList.add(new Magazine(newMagazineTitle, Periodicity.WEEKLY));
+                                Magazine newWeeklyMagazine = new Magazine(newMagazineTitle, Periodicity.WEEKLY);
+                                Optional<Magazine> isbnAlreadySaved = magazinesList.stream()
+                                        .filter(magazine -> magazine.getIsbn().equals(newWeeklyMagazine.getIsbn()))
+                                        .findFirst();
+                                if (isbnAlreadySaved.isEmpty()) {
+                                    magazinesList.add(newWeeklyMagazine);
+                                } else {
+                                    System.err.println("ISBN already existing");
+                                }
                                 for (Magazine magazine : magazinesList) {
                                     System.out.println(magazine);
                                 }
@@ -128,7 +144,15 @@ public class Application {
                             break;
                         case "monthly":
                             try {
-                                magazinesList.add(new Magazine(newMagazineTitle, Periodicity.MONTHLY));
+                                Magazine newMonthlyMagazine = new Magazine(newMagazineTitle, Periodicity.MONTHLY);
+                                Optional<Magazine> isbnAlreadySaved = magazinesList.stream()
+                                        .filter(magazine -> magazine.getIsbn().equals(newMonthlyMagazine.getIsbn()))
+                                        .findFirst();
+                                if (isbnAlreadySaved.isEmpty()) {
+                                    magazinesList.add(newMonthlyMagazine);
+                                } else {
+                                    System.err.println("ISBN already existing");
+                                }
                                 for (Magazine magazine : magazinesList) {
                                     System.out.println(magazine);
                                 }
@@ -138,7 +162,15 @@ public class Application {
                             break;
                         case "semiannual":
                             try {
-                                magazinesList.add(new Magazine(newMagazineTitle, Periodicity.SEMIANNUAL));
+                                Magazine newSemiannualMagazine = new Magazine(newMagazineTitle, Periodicity.SEMIANNUAL);
+                                Optional<Magazine> isbnAlreadySaved = magazinesList.stream()
+                                        .filter(magazine -> magazine.getIsbn().equals(newSemiannualMagazine.getIsbn()))
+                                        .findFirst();
+                                if (isbnAlreadySaved.isEmpty()) {
+                                    magazinesList.add(newSemiannualMagazine);
+                                } else {
+                                    System.err.println("ISBN already existing");
+                                }
                                 for (Magazine magazine : magazinesList) {
                                     System.out.println(magazine);
                                 }
