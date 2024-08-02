@@ -109,6 +109,9 @@ public class Application {
                         case "weekly":
                             try {
                                 magazinesList.add(new Magazine(magazineTitle, Periodicity.WEEKLY));
+                                for (Magazine magazine : magazinesList) {
+                                    System.out.println(magazine);
+                                }
                             } catch (IllegalArgumentException e) {
                                 System.err.println(e.getMessage());
                             }
@@ -116,6 +119,9 @@ public class Application {
                         case "monthly":
                             try {
                                 magazinesList.add(new Magazine(magazineTitle, Periodicity.MONTHLY));
+                                for (Magazine magazine : magazinesList) {
+                                    System.out.println(magazine);
+                                }
                             } catch (IllegalArgumentException e) {
                                 System.err.println(e.getMessage());
                             }
@@ -123,6 +129,9 @@ public class Application {
                         case "semiannual":
                             try {
                                 magazinesList.add(new Magazine(magazineTitle, Periodicity.SEMIANNUAL));
+                                for (Magazine magazine : magazinesList) {
+                                    System.out.println(magazine);
+                                }
                             } catch (IllegalArgumentException e) {
                                 System.err.println(e.getMessage());
                             }
@@ -136,11 +145,14 @@ public class Application {
                     String typeToDelete = scanner.nextLine().toLowerCase();
                     switch (typeToDelete) {
                         case "book":
+                            for (Book book : booksList) {
+                                System.out.println(book);
+                            }
                             System.out.println("Insert ISBN of the book to delete");
                             String isbnBookToDelete = scanner.nextLine();
                             Optional<Book> bookToDelete = booksList.stream().filter(book -> book.getIsbn().equals(isbnBookToDelete)).findFirst();
                             if (bookToDelete.isPresent()) {
-                                booksList.remove(bookToDelete);
+                                booksList.remove(bookToDelete.get());
                                 System.out.println("Book " + isbnBookToDelete + " successfully deleted");
                                 for (Book book : booksList) {
                                     System.out.println(book);
@@ -150,11 +162,14 @@ public class Application {
                             }
                             break;
                         case "magazine":
+                            for (Magazine magazine : magazinesList) {
+                                System.out.println(magazine);
+                            }
                             System.out.println("Insert ISBN of the magazine to delete");
                             String isbnMagazineToDelete = scanner.nextLine();
                             Optional<Magazine> magazineToDelete = magazinesList.stream().filter(magazine -> magazine.getIsbn().equals(isbnMagazineToDelete)).findFirst();
                             if (magazineToDelete.isPresent()) {
-                                magazinesList.remove(magazineToDelete);
+                                magazinesList.remove(magazineToDelete.get());
                                 System.out.println("Magazine " + isbnMagazineToDelete + " successfully deleted");
                                 for (Magazine magazine : magazinesList) {
                                     System.out.println(magazine);
@@ -168,7 +183,42 @@ public class Application {
                     }
                     break;
                 case "4":
-
+                    System.out.println("Do you want to search for a book or a magazine?");
+                    String typeToSearch = scanner.nextLine().toLowerCase();
+                    switch (typeToSearch) {
+                        case "book":
+                            for (Book book : booksList) {
+                                System.out.println(book);
+                            }
+                            System.out.println("Insert ISBN of the book you are searching for");
+                            String isbnBookToSearch = scanner.nextLine();
+                            Optional<Book> searchedBook = booksList.stream()
+                                    .filter(book -> book.getIsbn().equals(isbnBookToSearch))
+                                    .findFirst();
+                            if (searchedBook.isEmpty()) {
+                                System.err.println("Could not find ISBN: " + isbnBookToSearch);
+                            } else {
+                                System.out.println(searchedBook);
+                            }
+                            break;
+                        case "magazine":
+                            for (Magazine magazine : magazinesList) {
+                                System.out.println(magazine);
+                            }
+                            System.out.println("Insert ISBN of the magazine you are searching for");
+                            String isbnMagazineToSearch = scanner.nextLine();
+                            Optional<Magazine> searchedMagazine = magazinesList.stream()
+                                    .filter(magazine -> magazine.getIsbn().equals(isbnMagazineToSearch))
+                                    .findFirst();
+                            if (searchedMagazine.isEmpty()) {
+                                System.err.println("Could not find ISBN: " + isbnMagazineToSearch);
+                            } else {
+                                System.out.println(searchedMagazine);
+                            }
+                            break;
+                        default:
+                            System.err.println("Choose one between book and magazine");
+                    }
             }
 
         } while (!action.equals("0"));
