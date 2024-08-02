@@ -16,7 +16,7 @@ public class Application {
 
         Scanner scanner = new Scanner(System.in);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
             // creo un nuovo libro
             Book newBook = new Book(faker.book().title(), faker.book().author(), faker.book().genre());
 
@@ -61,5 +61,17 @@ public class Application {
             System.out.println(searchedBook);
         }*/
 
+        /*System.out.println("Type the year you want to search for");
+        int yearToSearch = Integer.parseInt(scanner.nextLine());
+        Map<Integer, List<Book>> booksByYear = booksList.stream()
+                .filter(book -> book.getPublicationDate().getYear() == yearToSearch)
+                .collect(Collectors.groupingBy(
+                        book -> book.getPublicationDate().getYear()
+                ));
+        if (!booksByYear.isEmpty()) {
+            booksByYear.forEach((year, book) -> System.out.println(year + ": " + book));
+        } else {
+            System.out.println("There are no books published in the year " + yearToSearch);
+        }*/
     }
 }
