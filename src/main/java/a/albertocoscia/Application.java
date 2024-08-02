@@ -37,12 +37,29 @@ public class Application {
             System.out.println(book);
         }
 
-        System.out.println("Insert ISBN of the book you want to delete");
+        /*System.out.println("Insert ISBN of the book you want to delete");
         String isbnToDelete = scanner.nextLine();
         List<Book> bookToRemove = booksList.stream().filter(book -> book.getIsbn().equals(isbnToDelete)).toList();
-        booksList.remove(bookToRemove.getFirst());
-        for (Book book : booksList) {
-            System.out.println(book);
-        }
+        if (!bookToRemove.isEmpty()) {
+            booksList.remove(bookToRemove.getFirst());
+            System.out.println("Book " + isbnToDelete + " successfully deleted");
+            for (Book book : booksList) {
+                System.out.println(book);
+            }
+        } else {
+            System.err.println("Could not find ISBN: " + isbnToDelete);
+        }*/
+
+        /*System.out.println("Insert ISBN of the book you are searching for");
+        String isbnToFind = scanner.nextLine();
+        Optional<Book> searchedBook = booksList.stream()
+                .filter(book -> book.getIsbn().equals(isbnToFind))
+                .findFirst();
+        if (searchedBook.isEmpty()) {
+            System.err.println("Could not find ISBN: " + isbnToFind);
+        } else {
+            System.out.println(searchedBook);
+        }*/
+
     }
 }
