@@ -316,7 +316,17 @@ public class Application {
         try {
             saveArchiveToDisk(booksList, magazinesList, archiveFile);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+        }
+
+        List<WrittenMedium> writtenMediaList = new ArrayList<>();
+        try {
+            createListFromFile(archiveFile, writtenMediaList);
+            for (WrittenMedium medium : writtenMediaList) {
+                System.out.println(medium);
+            }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
 
     }
@@ -331,5 +341,33 @@ public class Application {
         }
         FileUtils.writeStringToFile(file, stringa.toString(), StandardCharsets.UTF_8);
         System.out.println("Archive successfully saved");
+    }
+
+    public static void createListFromFile(File file, List<WrittenMedium> writtenMediaList) throws IOException {
+        String content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        String[] contentAsArray = content.split(System.lineSeparator());
+        for (String string : contentAsArray) {
+            String[] mediumAsString = string.split("@");
+            if (mediumAsString.length > 5) {
+                Book book = new Book(mediumAsString[1], mediumAsString[2], mediumAsString[3]);
+                writtenMediaList.add(book);
+            } else {
+                String newMagazinePeriodicity = mediumAsString[1].toLowerCase();
+                switch (newMagazinePeriodicity) {
+                    case "weekly":
+                        Magazine newWeeklyMagazine = new Magazine(mediumAsString[0], Periodicity.WEEKLY);
+                        writtenMediaList.add(newWeeklyMagazine);
+                        break;
+                    case "monthly":
+                        Magazine newMonthlyMagazine = new Magazine(mediumAsString[0], Periodicity.MONTHLY);
+                        writtenMediaList.add(newMonthlyMagazine);
+                        break;
+                    case "semiannual":
+                        Magazine newSemiannualMagazine = new Magazine(mediumAsString[0], Periodicity.SEMIANNUAL);
+                        writtenMediaList.add(newSemiannualMagazine);
+                        break;
+                }
+            }
+        }
     }
 }
