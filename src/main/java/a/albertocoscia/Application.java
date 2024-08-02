@@ -4,7 +4,11 @@ import a.albertocoscia.entities.Book;
 import a.albertocoscia.entities.Magazine;
 import a.albertocoscia.entities.WrittenMedium;
 import com.github.javafaker.Faker;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -307,5 +311,25 @@ public class Application {
                     }
             }
         } while (!action.equals("0"));
+
+        File archiveFile = new File("src/archive.txt");
+        try {
+            saveArchiveToDisk(booksList, magazinesList, archiveFile);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public static void saveArchiveToDisk(List<Book> booksList, List<Magazine> magazinesList, File file) throws IOException {
+        StringBuilder stringa = new StringBuilder();
+        for (Book book : booksList) {
+            stringa.append(book.getIsbn()).append("@").append(book.getTitle()).append("@").append(book.getAuthor()).append("@").append(book.getGenre()).append("@").append(book.getNumPages()).append("@").append(book.getPublicationDate()).append(System.lineSeparator());
+        }
+        for (Magazine magazine : magazinesList) {
+            stringa.append(magazine.getTitle()).append("@").append(magazine.getPeriodicity()).append("@").append(magazine.getIsbn()).append("@").append(magazine.getPublicationDate()).append("@").append(magazine.getNumPages()).append(System.lineSeparator());
+        }
+        FileUtils.writeStringToFile(file, stringa.toString(), StandardCharsets.UTF_8);
+        System.out.println("Archive successfully saved");
     }
 }
