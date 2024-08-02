@@ -184,8 +184,8 @@ public class Application {
                     break;
                 case "4":
                     System.out.println("Do you want to search for a book or a magazine?");
-                    String typeToSearch = scanner.nextLine().toLowerCase();
-                    switch (typeToSearch) {
+                    String typeToSearchByIsbn = scanner.nextLine().toLowerCase();
+                    switch (typeToSearchByIsbn) {
                         case "book":
                             for (Book book : booksList) {
                                 System.out.println(book);
@@ -218,21 +218,48 @@ public class Application {
                             break;
                         default:
                             System.err.println("Choose one between book and magazine");
+
+                    }
+                case "5":
+                    System.out.println("Insert the year you want to filter results by");
+                    int yearToSearch;
+                    try {
+                        yearToSearch = Integer.parseInt(scanner.nextLine());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid year format. Please enter a valid number.");
+                        return;
+                    }
+                    System.out.println("Do you want to search for books or magazines?");
+                    String typeToSearchByYear = scanner.nextLine().toLowerCase();
+                    switch (typeToSearchByYear) {
+                        case "books", "book":
+                            Map<Integer, List<Book>> booksBySearchedYear = booksList.stream()
+                                    .filter(book -> book.getPublicationDate().getYear() == yearToSearch)
+                                    .collect(Collectors.groupingBy(
+                                            book -> book.getPublicationDate().getYear()
+                                    ));
+                            if (!booksBySearchedYear.isEmpty()) {
+                                booksBySearchedYear.forEach((year, books) -> System.out.println(year + ": " + books));
+                            } else {
+                                System.err.println("There are no books published in the year " + yearToSearch);
+                            }
+                            break;
+                        case "magazines", "magazine":
+                            Map<Integer, List<Magazine>> magazinesBySearchedYear = magazinesList.stream()
+                                    .filter(magazine -> magazine.getPublicationDate().getYear() == yearToSearch)
+                                    .collect(Collectors.groupingBy(
+                                            magazine -> magazine.getPublicationDate().getYear()
+                                    ));
+                            if (!magazinesBySearchedYear.isEmpty()) {
+                                magazinesBySearchedYear.forEach((year, books) -> System.out.println(year + ": " + books));
+                            } else {
+                                System.err.println("There are no books published in the year " + yearToSearch);
+                            }
+                            break;
                     }
             }
 
         } while (!action.equals("0"));
-
-        /*System.out.println("Insert ISBN of the book you are searching for");
-        String isbnToSearch = scanner.nextLine();
-        Optional<Book> searchedBook = booksList.stream()
-                .filter(book -> book.getIsbn().equals(isbnToSearch))
-                .findFirst();
-        if (searchedBook.isEmpty()) {
-            System.err.println("Could not find ISBN: " + isbnToSearch);
-        } else {
-            System.out.println(searchedBook);
-        }*/
 
         /*System.out.println("Type the year you want to search for");
         int yearToSearch = Integer.parseInt(scanner.nextLine());

@@ -18,6 +18,7 @@ public class Magazine extends WrittenMedia {
         this.periodicity = periodicity;
     }
 
+
     @Override
     public String toString() {
         return "Magazine{" +
