@@ -1,6 +1,7 @@
 package a.albertocoscia;
 
 import a.albertocoscia.entities.Book;
+import a.albertocoscia.entities.Magazine;
 import com.github.javafaker.Faker;
 
 import java.util.ArrayList;
@@ -15,10 +16,7 @@ public class Application {
         Faker faker = new Faker();
 
         List<Book> booksList = new ArrayList<>();
-
-        Scanner scanner = new Scanner(System.in);
-
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 5; i++) {
             // creo un nuovo libro
             Book newBook = new Book(faker.book().title(), faker.book().author(), faker.book().genre());
 
@@ -35,9 +33,78 @@ public class Application {
                 i--;
             }
         }
-        for (Book book : booksList) {
+        /*for (Book book : booksList) {
             System.out.println(book);
-        }
+        }*/
+
+        List<Magazine> magazinesList = new ArrayList<>();
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("What do you want to do? Type the correspondent number");
+        System.out.println("1. Create a new book");
+        System.out.println("2. Create a new magazine");
+        System.out.println("3. Remove a book or a magazine by ISBN");
+        System.out.println("4. Search for a book or a magazine by ISBN");
+        System.out.println("5. Search for a book or a magazine by year");
+        System.out.println("6. Search for a book or a magazine by author");
+        System.out.println("0. Exit");
+
+        String action = "";
+        do {
+            String input = scanner.nextLine();
+            action = input;
+            switch (input) {
+                case "1":
+                    System.out.println("Type the title of the book");
+                    String bookTitle = scanner.nextLine();
+                    System.out.println("Type the author of the book");
+                    String author = scanner.nextLine();
+                    System.out.println("Type the genre of the book");
+                    String genre = scanner.nextLine();
+                    try {
+                        booksList.add(new Book(bookTitle, author, genre));
+                        for (Book book : booksList) {
+                            System.out.println(book);
+                        }
+                    } catch (IllegalArgumentException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
+                case "2":
+                    System.out.println("Type the title of the magazine");
+                    String magazineTitle = scanner.nextLine();
+                    System.out.println("Choose the periodicity of the magazine: Weekly, Monthly, Semiannual");
+                    String periodicity = scanner.nextLine().toLowerCase();
+                    switch (periodicity) {
+                        case "weekly":
+                            try {
+                                magazinesList.add(new Magazine(magazineTitle, Periodicity.WEEKLY));
+                            } catch (IllegalArgumentException e) {
+                                System.err.println(e.getMessage());
+                            }
+                            break;
+                        case "monthly":
+                            try {
+                                magazinesList.add(new Magazine(magazineTitle, Periodicity.MONTHLY));
+                            } catch (IllegalArgumentException e) {
+                                System.err.println(e.getMessage());
+                            }
+                            break;
+                        case "semiannual":
+                            try {
+                                magazinesList.add(new Magazine(magazineTitle, Periodicity.SEMIANNUAL));
+                            } catch (IllegalArgumentException e) {
+                                System.err.println(e.getMessage());
+                            }
+                            break;
+                        default:
+                            System.err.println("Choose one between Weekly, Monthly, Semiannual");
+                    }
+                    break;
+            }
+
+        } while (!action.equals("0"));
 
         /*System.out.println("Insert ISBN of the book you want to delete");
         String isbnToDelete = scanner.nextLine();
